@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="barium.js" defer></script> <!-- include the barium.js file and defer it to make sure it is only called after page is done loading -->
+        <script src="barium.min.js" defer></script> <!-- include the barium.js file and defer it to make sure it is only called after page is done loading -->
+        <script src="example.js" defer></script> <!-- load your custom tags (make sure to call the barium.initial() function somewhere) -->
     </head>
     <body>
         <r>!dlrow olleh</r> <!-- r is the reverse tag -->
-        <button onclick="barium()">reverse text</button> <!-- call the barium function to reverse text again -->
+        <banana></banana> <!-- banana is the 🍌 tag -->
+        <button onclick="barium.reapply()">re apply</button> <!-- call the barium function to reverse text again -->
     </body>
 </html>
