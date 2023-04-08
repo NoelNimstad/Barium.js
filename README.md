@@ -1,4 +1,4 @@
-# Barium.js v0.1b - Easily create HTML tags
+# Barium.js v0.1.1b - Easily create HTML tags
 
 *NOTICE: barium is probably really unsafe, it's made with regex for HTML parsin and probably saves the new HTML in a way which will conflict with other code.*
 *NOTICE: feel free to fix my code \(:*
