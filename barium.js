@@ -20,7 +20,9 @@ barium.replace = function(content, tagType)
         return [content.replace(regex, "$1"), "p"]; // apply default function, nothing happens and content is put inside a <p> tag
     }
     const task = targetTag.func(content.replace(regex, "$2")); // gets the content inside <r> ... </r>
-    return [task, "p"]; // you must return an array containing the updated content, and the new tag prefix
+    if(!task[0] || typeof(task[0]) != "string") throw new Error("no valid content was returned from " + tagType + "'s function");
+    if(!task[1] || typeof(task[1]) != "string") throw new Error("no valid tag type was returned from " + tagType + "'s function");
+    return [task[0], task[1]]; // you must return an array containing the updated content, and the new tag prefix
 }
 
 barium.initial = function()
