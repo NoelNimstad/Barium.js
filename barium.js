@@ -3,7 +3,7 @@
 
     by: Noel Nimstad (basyl)
     started: 6/4/23
-    last updated: 8/4/23
+    last updated: 12/9/23
 */
 
 let regexTagTypes = []; // store all the regex that will be comined later
@@ -19,7 +19,7 @@ barium.replace = function(content, tagType)
         console.warn("no tag exists with type " + tagType); // warn if the target tag doesnt exist
         return [content.replace(regex, "$1"), "p"]; // apply default function, nothing happens and content is put inside a <p> tag
     }
-    const task = targetTag.func(content.replace(regex, "$2")); // gets the content inside <r> ... </r>
+    const task = targetTag.func(content.replace(regex, `$${ targetTag.multiplier * 2 }`)); // gets the content inside <r> ... </r>
     if(!task[0] || typeof(task[0]) != "string") throw new Error("no valid content was returned from " + tagType + "'s function"); // make sure that the content returned is valid
     if(!task[1] || typeof(task[1]) != "string") throw new Error("no valid tag type was returned from " + tagType + "'s function"); // make sure that the tag type returned is valid
     return [task[0], task[1]]; // you must return an array containing the updated content, and the new tag prefix
@@ -63,17 +63,16 @@ barium.add = function(tag)
     if(!tag.func || typeof(tag.func) != "function") throw new Error(`inputted tag doesn't have a tag function or the inputted tag function isn't a function`); // make sure the tag has a function
     regexTagTypes.push(`(<${ tag.name }>(.*?)<\/${ tag.name }>)`); // push the regex to the temporary regex storage
     barium.tags.push(tag); // push the custom tag to the barium object
+    const indexOf = barium.tags.indexOf(tag);
+    barium.tags[indexOf].multiplier = indexOf + 1;
 }
 
 barium.addMultiple = function(tags)
 {
     if(!tags || typeof(tags) != "object") throw new Error(`no tags inputted or the function input isn't an array`); // make sure the inputted tags are stored inside an array
-    for(const tag in tags)
+    for(let i = 0; i < tags.length; i++)
     {
-        if(!tags[tag].name || typeof(tags[tag].name) != "string") throw new Error(`inputted tag doesn't have a tag type or the tag type isn't a string`); // make sure the tag has a name
-        if(!tags[tag].func || typeof(tags[tag].func) != "function") throw new Error(`inputted tag doesn't have a tag function or the inputted tag function isn't a function`); // make sure the tag has a function
-        regexTagTypes.push(`(<${ tags[tag].name }>(.*?)<\/${ tags[tag].name }>)`); // push the regex to the temporary regex storage
-        barium.tags.push(tags[tag]); // push the custom tag to the barium object
+        barium.add(tags[i]);
     }
 }
 
@@ -85,5 +84,6 @@ barium.tag = class // cutsom class for easy tag creation
         if(typeof(func) != "function") throw new Error(`inputed tag function isn't a function`); // make sure the tag has a function
         this.name = name; // store the name
         this.func = func; // store the function
+        this.multiplier = 1;
     }
 }
