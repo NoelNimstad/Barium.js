@@ -1,13 +1,12 @@
-const reverse = new barium.tag("r", content => 
+const reverse = new barium.tag("reverse", content => 
 {
     return [content.split("").reverse().join(""), "p"];
 }); 
 
 const banana = new barium.tag("banana", content => 
 {
-    return ["🍌", "h1"];
+    return ["🍌" + content + "🍌", "h1"];
 });
 
 barium.addMultiple([ reverse, banana ]);
-
 barium.initial();
